@@ -26,29 +26,57 @@ namespace DemoAPICrud.Controllers
             return await _context.Factures.ToListAsync();
         }
 
-        //// GET api/<controller>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Facture>> GetFactureById(long id)
+        {
+            var fact = await _context.Factures.FindAsync(id);
 
-        //// POST api/<controller>
-        //[HttpPost]
-        //public void Post([FromBody]string value)
-        //{
-        //}
+            if (fact == null)
+            {
+                return NotFound();
+            }
 
-        //// PUT api/<controller>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+            return fact;
+        }
 
-        //// DELETE api/<controller>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpPost]
+        public async Task<ActionResult<Facture>> AddFacture(Facture item)
+        {
+            _context.Factures.Add(item);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(AddFacture), new { id = item.Id }, item);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutFacture(long id, Facture item)
+        {
+            if (id != item.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(item).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFacture(long id)
+        {
+            var fact = await _context.Factures.FindAsync(id);
+
+            if (fact == null)
+            {
+                return NotFound();
+            }
+
+            _context.Factures.Remove(fact);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
