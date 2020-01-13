@@ -6,6 +6,12 @@ namespace DemoAPICrud
 {
     public partial class Facture
     {
+        public Facture()
+        {
+            
+        }
+
+
         public int Id { get; set; }
         public string Reference { get; set; }
         public string Objet { get; set; }

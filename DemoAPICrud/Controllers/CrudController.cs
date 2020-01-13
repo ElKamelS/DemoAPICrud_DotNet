@@ -27,9 +27,10 @@ namespace DemoAPICrud.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Facture>> GetFactureById(long id)
+        public async Task<ActionResult<Facture>> GetFactureById(int id)
         {
             var fact = await _context.Factures.FindAsync(id);
+            int i = 0;
 
             if (fact == null)
             {
@@ -48,8 +49,8 @@ namespace DemoAPICrud.Controllers
             return CreatedAtAction(nameof(AddFacture), new { id = item.Id }, item);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFacture(long id, Facture item)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> PutFacture(int id, Facture item)
         {
             if (id != item.Id)
             {
@@ -63,7 +64,7 @@ namespace DemoAPICrud.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFacture(long id)
+        public async Task<IActionResult> DeleteFacture(int id)
         {
             var fact = await _context.Factures.FindAsync(id);
 
